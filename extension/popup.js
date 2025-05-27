@@ -1,48 +1,25 @@
-document.getElementById("screenshotForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
+document.getElementById("submit").addEventListener("click", async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  const serial = document.getElementById("serial").value;
+  const serial = parseInt(document.getElementById("serial").value) - 1; // 0-based index
 
-  // Map serial to a predefined URL
-  const serialToUrl = {
-    "1": "https://google.com",
-    "2": "https://linkedin.com",
-    // add more mappings
-  };
-
-  const targetUrl = serialToUrl[serial];
-
-  if (!targetUrl) {
-    alert("Invalid serial number.");
-    return;
-  }
-
-  // Send POST request to FastAPI backend
-  try {
-    const response = await fetch("http://localhost:8000/screenshot", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        urls: [targetUrl],
-        username: email,
-        password: password,
-        email: email
-      })
-    });
-
-    const result = await response.json();
-    console.log("Response:", result);
-
-    if (result.status === "success") {
-      alert("Screenshot taken successfully.");
-    } else {
-      alert("Error: " + result.detail);
+  chrome.tabs.query({}, async (tabs) => {
+    if (serial < 0 || serial >= tabs.length) {
+      alert("Invalid tab serial number");
+      return;
     }
-  } catch (err) {
-    alert("Failed to reach backend: " + err.message);
-  }
+
+    const targetTab = tabs[serial];
+
+    chrome.scripting.executeScript({
+      target: { tabId: targetTab.id },
+      files: ["capture.js"]
+    }, () => {
+      chrome.tabs.sendMessage(targetTab.id, {
+        action: "capture_and_upload",
+        email,
+        password
+      });
+    });
+  });
 });

@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Webpage Screenshot Automator</title>
+  <title>Capture Screenshot</title>
 </head>
 <body>
-  <h3>Enter Details</h3>
-  <form id="screenshotForm">
-    <label>Email: <input type="email" id="email" required></label><br>
-    <label>Password: <input type="password" id="password" required></label><br>
-    <label>Website Serial Number: <input type="text" id="serial" required></label><br>
-    <button type="submit">Start</button>
-  </form>
+  <input id="email" type="text" placeholder="Email" /><br />
+  <input id="password" type="password" placeholder="Password" /><br />
+  <input id="serial" type="number" placeholder="Tab Serial Number (1-based)" /><br />
+  <button id="submit">Capture Screenshot</button>
   <script src="popup.js"></script>
 </body>
 </html>

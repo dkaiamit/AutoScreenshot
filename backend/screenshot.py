@@ -35,7 +35,8 @@ async def take_screenshots(
                 try:
                     print(f"[INFO] Navigating to: {url}")
                     await page.goto(url, timeout=15000)
-
+                    await page.wait_for_load_state("networkidle")
+                    await asyncio.sleep(15)  # Wait for MFA to complete
                     # Simulated login logic (form detection must be tailored to actual sites)
                     # You'll need to customize the selectors per real website
                     try:

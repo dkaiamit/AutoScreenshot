@@ -1,17 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Webpage Screenshot Automator",
-  "description": "Login and take screenshots after MFA.",
+  "description": "Capture scrolling screenshots with login support.",
   "version": "1.0",
-  "permissions": ["tabs", "activeTab", "storage", "scripting"],
-  "action": {
-    "default_popup": "popup.html",
-    "default_icon": {
-      "16": "icon.png"
-    }
-  },
+  "permissions": ["tabs", "activeTab", "scripting", "storage"],
+  "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js"
   },
-  "host_permissions": ["<all_urls>"]
+  "action": {
+    "default_popup": "popup.html"
+  }
 }
